@@ -44,36 +44,54 @@ class SecondPageState extends State<SecondPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    var secondPageBody
+
+    if(data == null) {
+      secondPageBody = loadingBar
+    } else {
+      secondPageBody = listOfSpecies
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Star Wars Species"),
           backgroundColor: Colors.green,
         ),
-        body: ListView.builder(
-          itemCount: data == null ? 0 : data.length,
-          itemBuilder: (BuildContext context, int index) {
-            return createListWithSpeciesNames(index);
-          },
-        ));
+        body: secondPageBody,
+    );
   }
 
-  Container createListWithSpeciesNames(int index) {
+  Widget get loadingBar() {
+    return Text("Loading...")
+  }
+
+  Widget get listOfSpecies() {
+    return ListView.builder(
+      itemCount: data == null ? 0 : data.length,
+      itemBuilder: (BuildContext context, int index) {
+        return speciesListItem(index);
+      },
+    )
+  }
+
+  Widget speciesListItem(int index) {
     return Container(
-        child: Center(
-            child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Image.asset('images/paladin.png', height: 100.0, width: 100.0,),
-        Card(
-            child: ExpansionTile(
-          title: Text(data[index]['name']),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Image.asset('images/boo_actual_character.png'),
-            Text("Classification:"),
-            Text(data[index]['classification']),
+            Image.asset('images/paladin.png', height: 100.0, width: 100.0,),
+            Card(
+              child: ExpansionTile(
+                title: Text(data[index]['name']),
+                children: <Widget>[
+                  Image.asset('images/boo_actual_character.png'),
+                  Text("Classification:"),
+                  Text(data[index]['classification']),
+                ],
+            ))
           ],
-        ))
-      ],
     )));
   }
 }
