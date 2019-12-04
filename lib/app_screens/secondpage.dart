@@ -92,15 +92,24 @@ class SecondPageState extends State<SecondPage> {
         ),
         Card(
             child: ExpansionTile(
-          title: Text(name),
+          title: Text(
+            name,
+            textAlign: TextAlign.center,
+          ),
           children: <Widget>[
-            Image.asset(
-              'images/boo_actual_character.png',
-              height: 80.0,
-              width: 80.0,
-              alignment: Alignment.centerLeft,
-            ),
-            ListTile(title: Text("Language: $language")),
+            Container(
+                alignment: Alignment.topLeft,
+                child: Image.asset(
+                  'images/boo_actual_character.png',
+                  height: 80.0,
+                  width: 80.0,
+                  alignment: Alignment.centerRight,
+                )),
+            ListTile(
+                title: Text(
+              "Language: $language",
+              textAlign: TextAlign.center,
+            )),
             //Text(data[index]['language']),
           ],
         ))
