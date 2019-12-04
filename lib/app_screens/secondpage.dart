@@ -44,26 +44,28 @@ class SecondPageState extends State<SecondPage> {
 
   @override
   Widget build(BuildContext context) {
-
     var secondPageBody;
 
-    if(data == null) {
+    if (data == null) {
       secondPageBody = loadingBar();
     } else {
       secondPageBody = listOfSpecies();
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Star Wars Species"),
-          backgroundColor: Colors.green,
-        ),
-        body: secondPageBody,
+      appBar: AppBar(
+        title: Text("Star Wars Species"),
+        backgroundColor: Colors.green,
+      ),
+      body: secondPageBody,
     );
   }
 
   Widget loadingBar() {
-    return Text("Fing specials...", textAlign: TextAlign.center,);
+    return Text(
+      "Finding specials...",
+      textAlign: TextAlign.center,
+    );
   }
 
   Widget listOfSpecies() {
@@ -76,22 +78,33 @@ class SecondPageState extends State<SecondPage> {
   }
 
   Container speciesListItem(int index) {
+    var language = data[index]['language'];
+    var name = data[index]['name'];
     return Container(
-      child: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Image.asset(
+          'images/paladin.png',
+          height: 100.0,
+          width: 100.0,
+        ),
+        Card(
+            child: ExpansionTile(
+          title: Text(name),
           children: <Widget>[
-            Image.asset('images/paladin.png', height: 100.0, width: 100.0,),
-            Card(
-              child: ExpansionTile(
-                title: Text(data[index]['name']),
-                children: <Widget>[
-                  Image.asset('images/boo_actual_character.png'),
-                  Text("Films:"),
-                  Text(data[index]['films']),
-                ],
-            ))
+            Image.asset(
+              'images/boo_actual_character.png',
+              height: 80.0,
+              width: 80.0,
+              alignment: Alignment.centerLeft,
+            ),
+            ListTile(title: Text("Language: $language")),
+            //Text(data[index]['language']),
           ],
-    )));
+        ))
+      ],
+    ));
   }
 }
