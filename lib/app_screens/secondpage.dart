@@ -87,8 +87,8 @@ class SecondPageState extends State<SecondPage> {
                 title: Text(data[index]['name']),
                 children: <Widget>[
                   Image.asset('images/boo_actual_character.png'),
-                  Text("Classification:"),
-                  Text(data[index]['classification']),
+                  Text("Films:"),
+                  Text(data[index]['films']),
                 ],
             ))
           ],
