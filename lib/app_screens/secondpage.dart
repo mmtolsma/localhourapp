@@ -45,12 +45,12 @@ class SecondPageState extends State<SecondPage> {
   @override
   Widget build(BuildContext context) {
 
-    var secondPageBody
+    var secondPageBody;
 
     if(data == null) {
-      secondPageBody = loadingBar
+      secondPageBody = loadingBar();
     } else {
-      secondPageBody = listOfSpecies
+      secondPageBody = listOfSpecies();
     }
 
     return Scaffold(
@@ -62,20 +62,20 @@ class SecondPageState extends State<SecondPage> {
     );
   }
 
-  Widget get loadingBar() {
-    return Text("Loading...")
+  Widget loadingBar() {
+    return Text("Finding specials...", textAlign: TextAlign.center,);
   }
 
-  Widget get listOfSpecies() {
+  Widget listOfSpecies() {
     return ListView.builder(
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) {
         return speciesListItem(index);
       },
-    )
+    );
   }
 
-  Widget speciesListItem(int index) {
+  Container speciesListItem(int index) {
     return Container(
       child: Center(
         child: Column(
