@@ -63,7 +63,7 @@ class SecondPageState extends State<SecondPage> {
   }
 
   Widget loadingBar() {
-    return Text("Finding specials...", textAlign: TextAlign.center,);
+    return Text("Fing specials...", textAlign: TextAlign.center,);
   }
 
   Widget listOfSpecies() {
