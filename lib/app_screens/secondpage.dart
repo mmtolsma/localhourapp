@@ -15,8 +15,7 @@ class SecondPageState extends State<SecondPage> {
   @override
   void initState() {
     //initial state of this widget i.e. initialisation of the widget
-    super
-        .initState(); //super is used to call the constructor of the BASE/PARENT class
+    super.initState(); //super is used to call the constructor of the BASE/PARENT class
     this.getJsonData(); //load the json data
   }
 
@@ -27,9 +26,9 @@ class SecondPageState extends State<SecondPage> {
         //only accept Json response
         headers: {"Accept": "application/json"});
     //headers: Sends an HTTP GET request with the given headers to the given URL,
-    //          which can be a [Uri] or a [String].
+    //which can be a [Uri] or a [String].
     //Go to the SWAPI website we're using:
-    // Accept is the "Vary", application/json is the "Content-Type"
+    //Accept is the "Vary", application/json is the "Content-Type"
 
     print(response.body);
 
@@ -62,10 +61,14 @@ class SecondPageState extends State<SecondPage> {
   }
 
   Widget loadingBar() {
-    return Text(
+    return Center(
+      child: Text(
       "Finding specials...",
       textAlign: TextAlign.center,
-    );
+        style: TextStyle(
+          fontSize: 40.0,
+        ),
+    ));
   }
 
   Widget listOfSpecies() {
@@ -80,24 +83,16 @@ class SecondPageState extends State<SecondPage> {
   Container speciesListItem(int index) {
     var language = data[index]['language'];
     var name = data[index]['name'];
+
     return Container(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Image.asset(
-          'images/paladin.png',
-          height: 100.0,
-          width: 100.0,
-        ),
-        Card(
+      child: Column(
+        children: <Widget>[
+          Card(
             child: ExpansionTile(
-          title: Text(
-            name,
-            textAlign: TextAlign.center,
-          ),
-          children: <Widget>[
-            Container(
+              title: Text(name, textAlign: TextAlign.center),
+
+              children: <Widget>[
+              Container(
                 alignment: Alignment.topLeft,
                 child: Image.asset(
                   'images/boo_actual_character.png',
@@ -105,12 +100,12 @@ class SecondPageState extends State<SecondPage> {
                   width: 80.0,
                   alignment: Alignment.centerRight,
                 )),
-            ListTile(
-                title: Text(
-              "Language: $language",
-              textAlign: TextAlign.center,
-            )),
-            //Text(data[index]['language']),
+
+                ListTile(
+                  title: Text(
+                  "Language: $language",
+                  textAlign: TextAlign.center,
+                )),
           ],
         ))
       ],
