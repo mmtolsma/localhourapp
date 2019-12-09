@@ -26,9 +26,9 @@ class SecondPageState extends State<SecondPage> {
         //only accept Json response
         headers: {"Accept": "application/json"});
     //headers: Sends an HTTP GET request with the given headers to the given URL,
-    //          which can be a [Uri] or a [String].
+    //which can be a [Uri] or a [String].
     //Go to the SWAPI website we're using:
-    // Accept is the "Vary", application/json is the "Content-Type"
+    //Accept is the "Vary", application/json is the "Content-Type"
 
     print(response.body);
 
@@ -106,7 +106,6 @@ class SecondPageState extends State<SecondPage> {
                   "Language: $language",
                   textAlign: TextAlign.center,
                 )),
-              //Text(data[index]['language']),
           ],
         ))
       ],
