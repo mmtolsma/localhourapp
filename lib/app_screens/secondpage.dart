@@ -15,7 +15,8 @@ class SecondPageState extends State<SecondPage> {
   @override
   void initState() {
     //initial state of this widget i.e. initialisation of the widget
-    super.initState(); //super is used to call the constructor of the BASE/PARENT class
+    super
+        .initState(); //super is used to call the constructor of the BASE/PARENT class
     this.getJsonData(); //load the json data
   }
 
@@ -41,6 +42,16 @@ class SecondPageState extends State<SecondPage> {
     return "Success";
   }
 
+  var _height = 100.0;
+  var _width = 400.0;
+
+  animateContainer() {
+    setState(() {
+      _height = _height == 100 ? 200 : 100;
+      //_width = _width == 400 ? 200 : 100;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var secondPageBody;
@@ -62,12 +73,12 @@ class SecondPageState extends State<SecondPage> {
 
   Widget loadingBar() {
     return Center(
-      child: Text(
+        child: Text(
       "Finding specials...",
       textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 40.0,
-        ),
+      style: TextStyle(
+        fontSize: 40.0,
+      ),
     ));
   }
 
@@ -80,35 +91,50 @@ class SecondPageState extends State<SecondPage> {
     );
   }
 
+  var expandMap = {}; //added at end
+
   Container speciesListItem(int index) {
     var language = data[index]['language'];
     var name = data[index]['name'];
+    var expanded = expandMap[index]; //added at end
 
     return Container(
-      child: Column(
-        children: <Widget>[
-          Card(
-            child: ExpansionTile(
-              title: Text(name, textAlign: TextAlign.center),
-
-              children: <Widget>[
-              Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'images/boo_actual_character.png',
-                  height: 80.0,
-                  width: 80.0,
-                  alignment: Alignment.centerRight,
-                )),
-
-                ListTile(
-                  title: Text(
-                  "Language: $language",
-                  textAlign: TextAlign.center,
-                )),
-          ],
-        ))
-      ],
-    ));
+        child: InkWell(
+              onTap: () {
+                expandMap[index] = !expandMap[index]; //added last minute
+                // animateContainer();
+              },
+              child: Container(
+                  height: _height,
+                  width: _width,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                    ),
+                  ),
+                  child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(name,
+                                textAlign: TextAlign.left,
+                                style:
+                                    TextStyle(fontSize: 20.0, color: Colors.black)
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(language,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.green)
+                            ),
+                          ],
+                        )
+                  ]))),
+    );
   }
 }

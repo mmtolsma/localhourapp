@@ -4,7 +4,7 @@ import 'app_screens/secondpage.dart';
 void main() => runApp(MaterialApp(
       title: "SWAPI application",
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: SecondPage(), //Change to HomePage when wanting first clicking page
       routes: <String, WidgetBuilder> { //creating routes to new pages
         "/SecondPage": (BuildContext context) => new SecondPage() //link to second page
       }
