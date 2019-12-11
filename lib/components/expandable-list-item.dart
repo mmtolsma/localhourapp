@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ExpandableListItem extends StatefulWidget {
-  String summary;
+  final String summary;
 
   @override
   ExpandableListItem({this.summary});
@@ -63,5 +63,4 @@ class ExpandableListItemState extends State<ExpandableListItem> {
               ]))),
     );
   }
-
 }
