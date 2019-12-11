@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:swapi_project/components/expandable-list-item.dart';
 
 class SecondPage extends StatefulWidget {
   @override
@@ -15,8 +16,7 @@ class SecondPageState extends State<SecondPage> {
   @override
   void initState() {
     //initial state of this widget i.e. initialisation of the widget
-    super
-        .initState(); //super is used to call the constructor of the BASE/PARENT class
+    super.initState(); //super is used to call the constructor of the BASE/PARENT class
     this.getJsonData(); //load the json data
   }
 
@@ -26,10 +26,6 @@ class SecondPageState extends State<SecondPage> {
         Uri.encodeFull(url),
         //only accept Json response
         headers: {"Accept": "application/json"});
-    //headers: Sends an HTTP GET request with the given headers to the given URL,
-    //which can be a [Uri] or a [String].
-    //Go to the SWAPI website we're using:
-    //Accept is the "Vary", application/json is the "Content-Type"
 
     print(response.body);
 
@@ -93,48 +89,12 @@ class SecondPageState extends State<SecondPage> {
 
   var expandMap = {}; //added at end
 
-  Container speciesListItem(int index) {
-    var language = data[index]['language'];
+  Widget speciesListItem(int index) {
     var name = data[index]['name'];
-    var expanded = expandMap[index]; //added at end
-
-    return Container(
-        child: InkWell(
-              onTap: () {
-                expandMap[index] = !expandMap[index]; //added last minute
-                // animateContainer();
-              },
-              child: Container(
-                  height: _height,
-                  width: _width,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                    ),
-                  ),
-                  child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text(name,
-                                textAlign: TextAlign.left,
-                                style:
-                                    TextStyle(fontSize: 20.0, color: Colors.black)
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(language,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.green)
-                            ),
-                          ],
-                        )
-                  ]))),
+    //var expanded = expandMap[index]; //added at end
+    //data.forEach(f)
+    return ExpandableListItem(
+      summary: name,
     );
   }
 }
