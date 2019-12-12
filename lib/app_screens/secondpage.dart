@@ -45,7 +45,7 @@ class SecondPageState extends State<SecondPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Star Wars Species"),
+        title: Text("Local Hour"),
         backgroundColor: Colors.green,
       ),
       body: secondPageBody,
@@ -74,7 +74,15 @@ class SecondPageState extends State<SecondPage> {
 
   Widget speciesListItem(int index) {
     return ExpandableListItem(
-      summary: specials[index]['specialSummary'],
+      venue: specials[index]['venue'],
+      dayOfWeek: specials[index]['dayOfWeek'],
+      specialTime: specials[index]['specialTime'],
+      specialSummary: specials[index]['specialSummary'],
+      specialDetails: specials[index]['specialDetails'],
     );
   }
 }
+
+//final String dayOfWeek;
+//  final String specialTime;
+//  final String specialSummary;
