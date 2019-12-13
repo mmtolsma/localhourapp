@@ -16,8 +16,7 @@ class ExpandableListItem extends StatefulWidget {
     this.specialSummary,
     this.specialDetails});
 
-  ExpandableListItemState createState() =>
-      ExpandableListItemState(
+  ExpandableListItemState createState() => ExpandableListItemState(
           venue: venue,
           dayOfWeek: dayOfWeek,
           specialTime: specialTime,
@@ -41,9 +40,7 @@ class ExpandableListItemState extends State<ExpandableListItem> {
 
   @override
   void initState() {
-    //initial state of this widget i.e. initialisation of the widget
-    super
-        .initState(); //super is used to call the constructor of the BASE/PARENT class
+    super.initState();
   }
 
   toggleExpand() {
@@ -57,7 +54,6 @@ class ExpandableListItemState extends State<ExpandableListItem> {
     var expandIcon = isExpanded ? Icon(Icons.arrow_upward) :
     Icon(Icons.arrow_downward);
     const double paddingSize = 3.0;
-    //Markdown(data: specialDetails); //handles markdown language i.e. **hello
 
     var rows = <Widget>[
       Padding(
@@ -72,9 +68,7 @@ class ExpandableListItemState extends State<ExpandableListItem> {
               ],
             ),
 
-            Spacer(flex: 1), //adds the space between the column widgets!
-            // flex = optional. Spacer places widgets far apart as possible
-            //SizedBox(width: 100.0), Alternative for custom size
+            Spacer(flex: 1),
 
             Column(
               children: <Widget>[
@@ -126,14 +120,6 @@ class ExpandableListItemState extends State<ExpandableListItem> {
                 data: specialDetails,
               ),
             )
-//          child: Row(
-//            mainAxisAlignment: MainAxisAlignment.start,
-//            children: <Widget>[
-//              Text(specialDetails,
-//                  style: TextStyle(fontSize: 20.0),
-//              ),
-//            ],
-//          ),
         ),
       );
       rows.add(expandIcon);
@@ -146,7 +132,7 @@ class ExpandableListItemState extends State<ExpandableListItem> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              expandIcon, //This is of type Icon(Icons.x)
+              expandIcon,
             ],
           ),
         ),
@@ -157,7 +143,7 @@ class ExpandableListItemState extends State<ExpandableListItem> {
       onTap: toggleExpand,
       child: Card(
         child: Container(
-            padding: EdgeInsets.all(5.0), //padding around each list item
+            padding: EdgeInsets.all(5.0),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(

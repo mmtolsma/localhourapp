@@ -1,42 +1,20 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:swapi_project/components/expandable-list-item.dart';
 
 class SecondPage extends StatefulWidget {
+
+  final List specials;
+
+  SecondPage({this.specials});
+
   @override
-  SecondPageState createState() => SecondPageState();
+  SecondPageState createState() => SecondPageState(specials: specials);
 }
 
 class SecondPageState extends State<SecondPage> {
 
-  final String url = 'https://local.ponelat.com'; //API url
   List specials;
-
-  @override
-  void initState() {
-    //initial state of this widget i.e. initialisation of the widget
-    super.initState(); //super is used to call the constructor of the BASE/PARENT class
-    this.getSpecials().then((jsonSpecials) {
-      setState(() {
-        specials = jsonSpecials;
-      });
-    }); //load the json data
-  }
-
-  Future<List> getSpecials() async {
-    var response = await http.get(
-        //Encode the url
-        Uri.encodeFull(url + '/specials'),
-        //only accept Json response
-        headers: {"Accept": "application/json"});
-    return jsonDecode(response.body);
-  }
-
-  //Controller for page swiping. Allows navigation between pages manually
-  //Gives information about the state of the page view
-  final PageController controller = PageController();
+  SecondPageState({this.specials});
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +27,8 @@ class SecondPageState extends State<SecondPage> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Local Hour"),
-          backgroundColor: Colors.green,
-        ),
-        body: PageView(
-          controller: controller,
-          children: <Widget>[
-            secondPageBody,
-            Container(color: Colors.green),
-            Container(color: Colors.blue),
-            Container(color: Colors.pink),
-            Container(color: Colors.yellow),
-          ],
-        ));
+        body: secondPageBody,
+    );
   }
 
   Widget loadingBar() {
@@ -95,7 +61,3 @@ class SecondPageState extends State<SecondPage> {
     );
   }
 }
-
-//final String dayOfWeek;
-//  final String specialTime;
-//  final String specialSummary;
