@@ -10,7 +10,8 @@ class SecondPage extends StatefulWidget {
 }
 
 class SecondPageState extends State<SecondPage> {
-  final String url = 'https://local.ponelat.com';
+
+  final String url = 'https://local.ponelat.com'; //API url
   List specials;
 
   @override
@@ -33,6 +34,10 @@ class SecondPageState extends State<SecondPage> {
     return jsonDecode(response.body);
   }
 
+  //Controller for page swiping. Allows navigation between pages manually
+  //Gives information about the state of the page view
+  final PageController controller = PageController();
+
   @override
   Widget build(BuildContext context) {
     var secondPageBody;
@@ -44,12 +49,20 @@ class SecondPageState extends State<SecondPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Local Hour"),
-        backgroundColor: Colors.green,
-      ),
-      body: secondPageBody,
-    );
+        appBar: AppBar(
+          title: Text("Local Hour"),
+          backgroundColor: Colors.green,
+        ),
+        body: PageView(
+          controller: controller,
+          children: <Widget>[
+            secondPageBody,
+            Container(color: Colors.green),
+            Container(color: Colors.blue),
+            Container(color: Colors.pink),
+            Container(color: Colors.yellow),
+          ],
+        ));
   }
 
   Widget loadingBar() {

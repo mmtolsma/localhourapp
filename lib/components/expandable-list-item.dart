@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-//import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class ExpandableListItem extends StatefulWidget {
   final String venue;
@@ -10,19 +10,19 @@ class ExpandableListItem extends StatefulWidget {
   final String specialDetails;
 
   @override
-  ExpandableListItem(
-      {this.venue,
-      this.dayOfWeek,
-      this.specialTime,
-      this.specialSummary,
-      this.specialDetails});
+  ExpandableListItem({this.venue,
+    this.dayOfWeek,
+    this.specialTime,
+    this.specialSummary,
+    this.specialDetails});
 
-  ExpandableListItemState createState() => ExpandableListItemState(
-      venue: venue,
-      dayOfWeek: dayOfWeek,
-      specialTime: specialTime,
-      specialSummary: specialSummary,
-      specialDetails: specialDetails);
+  ExpandableListItemState createState() =>
+      ExpandableListItemState(
+          venue: venue,
+          dayOfWeek: dayOfWeek,
+          specialTime: specialTime,
+          specialSummary: specialSummary,
+          specialDetails: specialDetails);
 }
 
 class ExpandableListItemState extends State<ExpandableListItem> {
@@ -33,12 +33,11 @@ class ExpandableListItemState extends State<ExpandableListItem> {
   String specialSummary;
   String specialDetails;
 
-  ExpandableListItemState(
-      {this.venue,
-      this.dayOfWeek,
-      this.specialTime,
-      this.specialSummary,
-      this.specialDetails});
+  ExpandableListItemState({this.venue,
+    this.dayOfWeek,
+    this.specialTime,
+    this.specialSummary,
+    this.specialDetails});
 
   @override
   void initState() {
@@ -56,8 +55,9 @@ class ExpandableListItemState extends State<ExpandableListItem> {
   @override
   Widget build(BuildContext context) {
     var expandIcon = isExpanded ? Icon(Icons.arrow_upward) :
-        Icon(Icons.arrow_downward);
+    Icon(Icons.arrow_downward);
     const double paddingSize = 3.0;
+    //Markdown(data: specialDetails); //handles markdown language i.e. **hello
 
     var rows = <Widget>[
       Padding(
@@ -82,13 +82,13 @@ class ExpandableListItemState extends State<ExpandableListItem> {
                   child: Container(
                     padding: const EdgeInsets.all(paddingSize),
                     decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius:
-                              new BorderRadius.all(new Radius.circular(3.0))
-                      ),
-                      child: Text(dayOfWeek,
-                          style: TextStyle(fontSize: 20.0, color: Colors.white)
-                      ),
+                        color: Colors.blue,
+                        borderRadius:
+                        new BorderRadius.all(new Radius.circular(3.0))
+                    ),
+                    child: Text(dayOfWeek,
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)
+                    ),
                   ),
                 ),
               ],
@@ -109,28 +109,37 @@ class ExpandableListItemState extends State<ExpandableListItem> {
       ),
     ];
 
-    if(specialDetails == ""){
+    if (specialDetails == "") {
       rows.remove(expandIcon);
     }
 
     else if (isExpanded) {
       rows.add(
         Padding(
-          padding: const EdgeInsets.all(paddingSize),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(specialDetails,
-                  style: TextStyle(fontSize: 20.0),
+            padding: const EdgeInsets.all(paddingSize),
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: MarkdownBody(
+                styleSheet: MarkdownStyleSheet(
+                  textScaleFactor: 1.5,
+                ),
+                data: specialDetails,
               ),
-            ],
-          ),
+            )
+//          child: Row(
+//            mainAxisAlignment: MainAxisAlignment.start,
+//            children: <Widget>[
+//              Text(specialDetails,
+//                  style: TextStyle(fontSize: 20.0),
+//              ),
+//            ],
+//          ),
         ),
       );
       rows.add(expandIcon);
     }
 
-    else{
+    else {
       rows.add(
         Padding(
           padding: const EdgeInsets.all(paddingSize),
@@ -146,17 +155,19 @@ class ExpandableListItemState extends State<ExpandableListItem> {
 
     return GestureDetector(
       onTap: toggleExpand,
-      child: Container(
-        padding: EdgeInsets.all(5.0), //padding around each list item
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black,
+      child: Card(
+        child: Container(
+            padding: EdgeInsets.all(5.0), //padding around each list item
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+              ),
             ),
-          ),
-          child: Column(
-            children: rows,
-          )
+            child: Column(
+              children: rows,
+            )
+        ),
       ),
     );
   }

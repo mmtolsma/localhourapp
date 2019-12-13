@@ -29,3 +29,13 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+////This will create apk that are intended for each type
+//splits {
+//    abi {
+//        enable true
+//        reset()
+//        include 'x86', 'armeabi-v7a', 'x86_64' //types
+//        universalApk true
+//    }
+//}
