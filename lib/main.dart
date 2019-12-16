@@ -89,7 +89,6 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print("Build");
     return FutureBuilder(
       future: getSpecials().then(splitIntoDays),
       builder: (context, snapshot) {
