@@ -43,10 +43,11 @@ class SecondPageState extends State<SecondPage> {
   }
 
   Widget listOfSpecies() {
-    return ListView.builder(
+    return specials.isEmpty ? Center(child: Text("No specials today!", style: TextStyle(fontSize: 20.0),))
+        : ListView.builder(
       itemCount: specials == null ? 0 : specials.length,
       itemBuilder: (BuildContext context, int index) {
-        return speciesListItem(index);
+          return speciesListItem(index);
       },
     );
   }

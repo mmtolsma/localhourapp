@@ -54,15 +54,63 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
     return jsonDecode(response.body);
   }
 
+  Map splitIntoDays(specials)
+  {
+    //daysOfWeekIndex[0] = Sunday
+
+    var today = [];
+    var tomorrow = [];
+    var nextDay = [];
+
+    var todayDate = DateTime.now();
+    var todayIndex = todayDate.weekday;
+
+    for(var i = 0; i < specials.length; i++) {
+
+      var special = specials[i];
+
+      if(special['dayOfWeekIndex'] == todayIndex) {
+        today.add((special));
+      }
+
+      var tomorrowIndex = (todayIndex + 1) % 7;
+      if(special['dayOfWeekIndex'] == tomorrowIndex) {
+        tomorrow.add(special);
+      }
+
+      var nextDayIndex = (todayIndex + 2) % 7;
+      if(special['dayOfWeekIndex'] == nextDayIndex) {
+        nextDay.add(special);
+      }
+    }
+
+    return {"today": today, "tomorrow": tomorrow, "nextDay": nextDay};
+  }
+
   @override
   Widget build(BuildContext context) {
     print("Build");
     return FutureBuilder(
-      future: getSpecials(),
+      future: getSpecials().then(splitIntoDays),
       builder: (context, snapshot) {
-        print("The data is busy loading");
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Finding Specials", style: TextStyle(color: Colors.white, fontSize: 15.0,
+                decoration: TextDecoration.none)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                    child: CircularProgressIndicator()
+                ),
+              ),
+            ],
+          );
         }
         return Scaffold(
           appBar: AppBar(
@@ -77,9 +125,9 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
           body: TabBarView(
             controller: controller,
             children: <Widget>[
-              SecondPage(specials: snapshot.data),
-              SecondPage(specials: snapshot.data),
-              SecondPage(specials: snapshot.data),
+              SecondPage(specials: snapshot.data["today"]),
+              SecondPage(specials: snapshot.data["tomorrow"]), //Not sure if this is the right way to go about it
+              SecondPage(specials: snapshot.data["nextDay"]),
             ],
           ),
         );
