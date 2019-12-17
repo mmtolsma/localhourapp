@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_screens/secondpage.dart';
+import 'app_screens/specials-list.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -54,37 +54,49 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
     return jsonDecode(response.body);
   }
 
-  Map splitIntoDays(specials)
-  {
+  Map splitIntoDays(specials) {
     //daysOfWeekIndex[0] = Sunday
-
     var today = [];
     var tomorrow = [];
     var nextDay = [];
 
+    var dayOfToday;
+    var dayOfTomorrow;
+    var dayOfNextDay;
+
     var todayDate = DateTime.now();
     var todayIndex = todayDate.weekday;
 
-    for(var i = 0; i < specials.length; i++) {
-
+    for (var i = 0; i < specials.length; i++) {
       var special = specials[i];
 
-      if(special['dayOfWeekIndex'] == todayIndex) {
-        today.add((special));
+      if (special['dayOfWeekIndex'] == todayIndex) {
+        today.add((special)); //add to today's list
+        dayOfToday = special['dayOfWeek']; //show day of week for this special
       }
 
       var tomorrowIndex = (todayIndex + 1) % 7;
-      if(special['dayOfWeekIndex'] == tomorrowIndex) {
+      if (special['dayOfWeekIndex'] == tomorrowIndex) {
         tomorrow.add(special);
+        dayOfTomorrow = special['dayOfWeek'];
       }
 
       var nextDayIndex = (todayIndex + 2) % 7;
-      if(special['dayOfWeekIndex'] == nextDayIndex) {
+      if (special['dayOfWeekIndex'] == nextDayIndex) {
         nextDay.add(special);
+        dayOfNextDay = special['dayOfWeek'];
       }
     }
 
-    return {"today": today, "tomorrow": tomorrow, "nextDay": nextDay};
+    return {
+      "today": today,
+      "tomorrow": tomorrow,
+      "nextDay": nextDay,
+      "dayOfToday": dayOfToday,
+      "dayOfTomorrow": dayOfTomorrow,
+      "dayOfNextDay": dayOfNextDay,
+      "counter": 0,
+    };
   }
 
   @override
@@ -99,14 +111,15 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Finding Specials", style: TextStyle(color: Colors.white, fontSize: 15.0,
-                decoration: TextDecoration.none)),
+                child: Text("Finding Specials",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                        decoration: TextDecoration.none)),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: CircularProgressIndicator()
-                ),
+                child: Center(child: CircularProgressIndicator()),
               ),
             ],
           );
@@ -114,19 +127,34 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
         return Scaffold(
           appBar: AppBar(
               leading: Icon(Icons.dehaze),
-              //there's an "action" option for menus and stuff. "leading" for show
               title: Text("LOCAL HOUR"),
-              backgroundColor: Colors.green,
               bottom: TabBar(
                 controller: controller,
                 tabs: myTabs.toList(),
-              )),
+                indicator: BoxDecoration(color: Colors.green),
+              )
+          ),
           body: TabBarView(
             controller: controller,
             children: <Widget>[
-              SecondPage(specials: snapshot.data["today"]),
-              SecondPage(specials: snapshot.data["tomorrow"]), //Not sure if this is the right way to go about it
-              SecondPage(specials: snapshot.data["nextDay"]),
+              Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.blue,
+                      centerTitle: true,
+                      title: Text("${snapshot.data["dayOfToday"]}")),
+                  body: SpecialsList(specials: snapshot.data["today"])),
+              Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.purple,
+                      centerTitle: true,
+                      title: Text("${snapshot.data["dayOfTomorrow"]}")),
+                  body: SpecialsList(specials: snapshot.data["tomorrow"])),
+              Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.orange,
+                      centerTitle: true,
+                      title: Text("${snapshot.data["dayOfNextDay"]}")),
+                  body: SpecialsList(specials: snapshot.data["nextDay"])),
             ],
           ),
         );
