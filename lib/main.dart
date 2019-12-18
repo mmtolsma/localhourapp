@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_screens/secondpage.dart';
+import 'app_screens/specials-list.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -20,20 +20,22 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   List specials;
   TabController controller;
 
-  List<Widget> myTabs = [
-    Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Text("Today", style: TextStyle(fontSize: 15.0)),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Text("Tomorrow", style: TextStyle(fontSize: 15.0)),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Text("Next Day", style: TextStyle(fontSize: 15.0)),
-    ),
-  ];
+  List<Widget> myTabs(List views) {
+    return [
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(views[0]['title'], style: TextStyle(fontSize: 15.0)),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(views[1]['title'], style: TextStyle(fontSize: 15.0)),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(views[2]['title'], style: TextStyle(fontSize: 15.0)),
+        ),
+      ];
+  }
 
   @override
   void initState() {
@@ -49,48 +51,15 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   }
 
   Future<List> getSpecials() async {
-    var response = await http.get(Uri.encodeFull(url + '/specials'),
+    var response = await http.get(Uri.encodeFull(url + '/specials-views'),
         headers: {"Accept": "application/json"});
     return jsonDecode(response.body);
-  }
-
-  Map splitIntoDays(specials)
-  {
-    //daysOfWeekIndex[0] = Sunday
-
-    var today = [];
-    var tomorrow = [];
-    var nextDay = [];
-
-    var todayDate = DateTime.now();
-    var todayIndex = todayDate.weekday;
-
-    for(var i = 0; i < specials.length; i++) {
-
-      var special = specials[i];
-
-      if(special['dayOfWeekIndex'] == todayIndex) {
-        today.add((special));
-      }
-
-      var tomorrowIndex = (todayIndex + 1) % 7;
-      if(special['dayOfWeekIndex'] == tomorrowIndex) {
-        tomorrow.add(special);
-      }
-
-      var nextDayIndex = (todayIndex + 2) % 7;
-      if(special['dayOfWeekIndex'] == nextDayIndex) {
-        nextDay.add(special);
-      }
-    }
-
-    return {"today": today, "tomorrow": tomorrow, "nextDay": nextDay};
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getSpecials().then(splitIntoDays),
+      future: getSpecials(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Column(
@@ -99,14 +68,15 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Finding Specials", style: TextStyle(color: Colors.white, fontSize: 15.0,
-                decoration: TextDecoration.none)),
+                child: Text("Finding Specials",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                        decoration: TextDecoration.none)),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: CircularProgressIndicator()
-                ),
+                child: Center(child: CircularProgressIndicator()),
               ),
             ],
           );
@@ -114,19 +84,34 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
         return Scaffold(
           appBar: AppBar(
               leading: Icon(Icons.dehaze),
-              //there's an "action" option for menus and stuff. "leading" for show
               title: Text("LOCAL HOUR"),
-              backgroundColor: Colors.green,
               bottom: TabBar(
                 controller: controller,
-                tabs: myTabs.toList(),
-              )),
+                tabs: myTabs(snapshot.data),
+                indicator: BoxDecoration(color: Colors.green),
+              )
+          ),
           body: TabBarView(
             controller: controller,
             children: <Widget>[
-              SecondPage(specials: snapshot.data["today"]),
-              SecondPage(specials: snapshot.data["tomorrow"]), //Not sure if this is the right way to go about it
-              SecondPage(specials: snapshot.data["nextDay"]),
+              Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.green,
+                      centerTitle: true,
+                      title: Text(snapshot.data[0]['heading'])),
+                  body: SpecialsList(specials: snapshot.data[0]['specials'])),
+              Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.purple,
+                      centerTitle: true,
+                      title: Text(snapshot.data[1]['heading'])),
+                  body: SpecialsList(specials: snapshot.data[1]['specials'])),
+              Scaffold(
+                  appBar: AppBar(
+                      backgroundColor: Colors.orange,
+                      centerTitle: true,
+                      title: Text(snapshot.data[2]['heading'])),
+                  body: SpecialsList(specials: snapshot.data[2]['specials'])),
             ],
           ),
         );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-class ExpandableListItem extends StatefulWidget {
+class SpecialsListItem extends StatefulWidget {
   final String venue;
   final String dayOfWeek;
   final String specialTime;
@@ -10,13 +10,13 @@ class ExpandableListItem extends StatefulWidget {
   final String specialDetails;
 
   @override
-  ExpandableListItem({this.venue,
+  SpecialsListItem({this.venue,
     this.dayOfWeek,
     this.specialTime,
     this.specialSummary,
     this.specialDetails});
 
-  ExpandableListItemState createState() => ExpandableListItemState(
+  SpecialsListItemState createState() => SpecialsListItemState(
           venue: venue,
           dayOfWeek: dayOfWeek,
           specialTime: specialTime,
@@ -24,7 +24,7 @@ class ExpandableListItem extends StatefulWidget {
           specialDetails: specialDetails);
 }
 
-class ExpandableListItemState extends State<ExpandableListItem> {
+class SpecialsListItemState extends State<SpecialsListItem> {
   bool isExpanded = false;
   String venue;
   String dayOfWeek;
@@ -32,7 +32,7 @@ class ExpandableListItemState extends State<ExpandableListItem> {
   String specialSummary;
   String specialDetails;
 
-  ExpandableListItemState({this.venue,
+  SpecialsListItemState({this.venue,
     this.dayOfWeek,
     this.specialTime,
     this.specialSummary,
@@ -62,9 +62,15 @@ class ExpandableListItemState extends State<ExpandableListItem> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Text(venue,
-                    style: TextStyle(fontSize: 20.0, color: Colors.black)
-                ),
+                MarkdownBody(
+                  styleSheet: MarkdownStyleSheet(
+                    textScaleFactor: 1.5,
+                  ),
+                  data: venue,
+                )
+//                Text(venue,
+//                    style: TextStyle(fontSize: 20.0, color: Colors.black)
+//                ),
               ],
             ),
 
@@ -77,10 +83,9 @@ class ExpandableListItemState extends State<ExpandableListItem> {
                     padding: const EdgeInsets.all(paddingSize),
                     decoration: BoxDecoration(
                         color: Colors.blue,
-                        borderRadius:
-                        new BorderRadius.all(new Radius.circular(3.0))
+                        borderRadius: BorderRadius.all(Radius.circular(3.0))
                     ),
-                    child: Text(dayOfWeek,
+                    child: Text(specialTime,
                         style: TextStyle(fontSize: 20.0, color: Colors.white)
                     ),
                   ),
@@ -95,8 +100,11 @@ class ExpandableListItemState extends State<ExpandableListItem> {
         padding: const EdgeInsets.all(paddingSize),
         child: Row(
           children: <Widget>[
-            Text(specialSummary,
-                style: TextStyle(fontSize: 20.0, color: Colors.black)
+            MarkdownBody(
+              styleSheet: MarkdownStyleSheet(
+                textScaleFactor: 1.5,
+              ),
+              data: specialSummary,
             ),
           ],
         ),
