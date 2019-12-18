@@ -46,7 +46,7 @@ class SpecialsListState extends State<SpecialsList> {
 
     setState(() {
       listOfSpecies();
-      print("Done!");
+//      print("Done!");
     });
 
     return null;
@@ -58,26 +58,24 @@ class SpecialsListState extends State<SpecialsList> {
             child: Text("No specials today!",
             style: TextStyle(fontSize: 20.0),
           ))
-        : Scaffold(
-            body: RefreshIndicator(
-              onRefresh: refreshList,
-              child: ListView.builder(
-                itemCount: specials == null ? 0 : specials.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return speciesListItem(index);
-                },
-              ),
-            ),
-          );
+        : RefreshIndicator(
+                onRefresh: refreshList,
+                child: ListView.builder(
+                  itemCount: specials == null ? 0 : specials.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return speciesListItem(index);
+                  },
+                ),
+        );
   }
 
   Widget speciesListItem(int index) {
     return SpecialsListItem(
-      venue: specials[index]['venue'],
-      dayOfWeek: specials[index]['dayOfWeek'],
-      specialTime: specials[index]['specialTime'],
-      specialSummary: specials[index]['specialSummary'],
-      specialDetails: specials[index]['specialDetails'],
+        venue: specials[index]['venue'],
+        dayOfWeek: specials[index]['dayOfWeek'],
+        specialTime: specials[index]['specialTime'],
+        specialSummary: specials[index]['specialSummary'],
+        specialDetails: specials[index]['specialDetails'],
     );
   }
 }

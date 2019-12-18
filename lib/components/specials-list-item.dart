@@ -62,9 +62,15 @@ class SpecialsListItemState extends State<SpecialsListItem> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Text(venue,
-                    style: TextStyle(fontSize: 20.0, color: Colors.black)
-                ),
+                MarkdownBody(
+                  styleSheet: MarkdownStyleSheet(
+                    textScaleFactor: 1.5,
+                  ),
+                  data: venue,
+                )
+//                Text(venue,
+//                    style: TextStyle(fontSize: 20.0, color: Colors.black)
+//                ),
               ],
             ),
 
@@ -77,10 +83,9 @@ class SpecialsListItemState extends State<SpecialsListItem> {
                     padding: const EdgeInsets.all(paddingSize),
                     decoration: BoxDecoration(
                         color: Colors.blue,
-                        borderRadius:
-                        new BorderRadius.all(new Radius.circular(3.0))
+                        borderRadius: BorderRadius.all(Radius.circular(3.0))
                     ),
-                    child: Text(dayOfWeek,
+                    child: Text(specialTime,
                         style: TextStyle(fontSize: 20.0, color: Colors.white)
                     ),
                   ),
@@ -95,8 +100,11 @@ class SpecialsListItemState extends State<SpecialsListItem> {
         padding: const EdgeInsets.all(paddingSize),
         child: Row(
           children: <Widget>[
-            Text(specialSummary,
-                style: TextStyle(fontSize: 20.0, color: Colors.black)
+            MarkdownBody(
+              styleSheet: MarkdownStyleSheet(
+                textScaleFactor: 1.5,
+              ),
+              data: specialSummary,
             ),
           ],
         ),
