@@ -1,8 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'app_screens/specials-list.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:swipedetector/swipedetector.dart';
 
 void main() => runApp(MaterialApp(
       title: "Local Hour application",
@@ -19,6 +21,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   final String url = 'https://local.ponelat.com'; //API url
   List specials;
   TabController controller;
+  int tabIndex = 0;
 
   List<Widget> myTabs(List views) {
     return [
@@ -42,10 +45,19 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
     super.initState();
 
     controller = TabController(vsync: this, length: 3);
+
+    controller.addListener(updateTabColorFromControllerIndex);
+  }
+
+  updateTabColorFromControllerIndex() {
+    setState(() {
+      tabIndex = controller.index;
+    });
   }
 
   @override
   void dispose() {
+    controller.removeListener(updateTabColorFromControllerIndex);
     controller.dispose();
     super.dispose();
   }
@@ -86,36 +98,53 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
               leading: Icon(Icons.dehaze),
               title: Text("LOCAL HOUR"),
               bottom: TabBar(
-                controller: controller,
-                tabs: myTabs(snapshot.data),
-                indicator: BoxDecoration(color: Colors.green),
+                  controller: controller,
+                  tabs: myTabs(snapshot.data),
+                  indicator: BoxDecoration(color: colorForTab(tabIndex)),
+                  onTap: (index) {
+                    setState(() {
+                      tabIndex = index;
+                    });
+                  }
               )
           ),
           body: TabBarView(
+            dragStartBehavior: DragStartBehavior.start,
             controller: controller,
             children: <Widget>[
               Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.green,
+                      backgroundColor: colorForTab(tabIndex),
                       centerTitle: true,
                       title: Text(snapshot.data[0]['heading'])),
                   body: SpecialsList(specials: snapshot.data[0]['specials'])),
               Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.purple,
+                      backgroundColor: colorForTab(tabIndex),
                       centerTitle: true,
                       title: Text(snapshot.data[1]['heading'])),
                   body: SpecialsList(specials: snapshot.data[1]['specials'])),
               Scaffold(
                   appBar: AppBar(
-                      backgroundColor: Colors.orange,
+                      backgroundColor: colorForTab(tabIndex),
                       centerTitle: true,
                       title: Text(snapshot.data[2]['heading'])),
                   body: SpecialsList(specials: snapshot.data[2]['specials'])),
             ],
           ),
         );
-      },
-    );
+      }
+      );
+    }
+}
+
+Color colorForTab(int tabIndex){
+  if(tabIndex == 0){
+    return Colors.green;
+  }else if(tabIndex == 1){
+    return Colors.purple;
+  }else if(tabIndex == 2){
+    return Colors.orange;
   }
+  return Colors.blue;
 }
