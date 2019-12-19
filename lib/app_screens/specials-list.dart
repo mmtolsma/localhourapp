@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swapi_project/components/specials-list-item.dart';
+import 'package:localhour/components/specials-list-item.dart';
 
 class SpecialsList extends StatefulWidget {
   final List specials;

@@ -1,4 +1,4 @@
-# swapi_project
+# localhour
 
 Flutter app to get information from an API
 
