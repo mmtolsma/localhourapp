@@ -21,7 +21,6 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   TabController controller;
   int tabIndex = 0;
   Future<List> specials;
-  int counter = 0;
 
   List<Widget> myTabs(List views) {
     return [
