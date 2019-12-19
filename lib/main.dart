@@ -5,6 +5,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+const Color COLORS_BG = Colors.white;
+const Color COLORS_0 = Colors.redAccent;
+const Color COLORS_1 = Colors.yellow;
+const Color COLORS_2 = Colors.orangeAccent;
+
 void main() => runApp(MaterialApp(
       title: "Local Hour application",
       debugShowCheckedModeBanner: false,
@@ -25,16 +30,16 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   List<Widget> myTabs(List views) {
     return [
         Padding(
-          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          child: Text(views[0]['title'], style: TextStyle(fontSize: 15.0)),
+          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+          child: Text(views[0]['title'], style: TextStyle(fontSize: 20.0, color: Colors.black)),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          child: Text(views[1]['title'], style: TextStyle(fontSize: 15.0)),
+          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+          child: Text(views[1]['title'], style: TextStyle(fontSize: 20.0, color: Colors.black)),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          child: Text(views[2]['title'], style: TextStyle(fontSize: 15.0)),
+          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+          child: Text(views[2]['title'], style: TextStyle(fontSize: 20.0, color: Colors.black)),
         ),
       ];
   }
@@ -102,9 +107,17 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
         }
         return Scaffold(
           appBar: AppBar(
-              title: Text("LOCALHOUR"),
+              backgroundColor: COLORS_BG,
+              title: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Row(
+                    children: <Widget>[
+                    Image.asset('images/localhourlogo.png', fit: BoxFit.contain, height: 60.0),
+                    ]),
+              ),
               actions: <Widget>[
                 PopupMenuButton<String>(
+                  icon: Icon(Icons.settings, color: Colors.black),
                   onSelected: choiceAction,
                   itemBuilder: (BuildContext context) {
                     return MenuItems.choices.map((String choice) {
@@ -134,7 +147,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                   appBar: AppBar(
                     backgroundColor: colorForTab(tabIndex),
                     centerTitle: true,
-                    title: Text(snapshot.data[0]['heading'])),
+                    title: Text(snapshot.data[0]['heading'], style: TextStyle(color: Colors.black),)),
                   body: SpecialsList(
                     specials: snapshot.data[0]['specials'],
                     specialsIndex: 0,
@@ -144,7 +157,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                   appBar: AppBar(
                     backgroundColor: colorForTab(tabIndex),
                     centerTitle: true,
-                    title: Text(snapshot.data[1]['heading'])),
+                    title: Text(snapshot.data[1]['heading'], style: TextStyle(color: Colors.black),)),
                   body: SpecialsList(
                     specials: snapshot.data[1]['specials'],
                     specialsIndex: 1,
@@ -156,7 +169,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                   appBar: AppBar(
                       backgroundColor: colorForTab(tabIndex),
                       centerTitle: true,
-                      title: Text(snapshot.data[2]['heading'])),
+                      title: Text(snapshot.data[2]['heading'], style: TextStyle(color: Colors.black),)),
                   body: SpecialsList(
                     specials: snapshot.data[2]['specials'],
                     specialsIndex: 2,
@@ -183,11 +196,11 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
 Color colorForTab(int tabIndex){
   if(tabIndex == 0){
-    return Colors.green;
+    return COLORS_0;
   }else if(tabIndex == 1){
-    return Colors.purple;
+    return COLORS_1;
   }else if(tabIndex == 2){
-    return Colors.orange;
+    return COLORS_2;
   }
-  return Colors.blue;
+  return COLORS_0;
 }

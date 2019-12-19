@@ -51,8 +51,8 @@ class SpecialsListItemState extends State<SpecialsListItem> {
 
   @override
   Widget build(BuildContext context) {
-    var expandIcon = isExpanded ? Icon(Icons.arrow_upward) :
-    Icon(Icons.arrow_downward);
+    var expandIcon = isExpanded ? Icon(Icons.expand_less) :
+    Icon(Icons.expand_more);
     const double paddingSize = 3.0;
 
     var rows = <Widget>[
