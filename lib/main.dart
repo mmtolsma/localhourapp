@@ -31,15 +31,21 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
     return [
         Padding(
           padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Text(views[0]['title'], style: TextStyle(fontSize: 20.0, color: Colors.black)),
+          child: FittedBox(
+              child: Text(views[0]['title'], style: TextStyle(color: Colors.black))
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Text(views[1]['title'], style: TextStyle(fontSize: 20.0, color: Colors.black)),
+          child: FittedBox(
+              child: Text(views[1]['title'], style: TextStyle(color: Colors.black))
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-          child: Text(views[2]['title'], style: TextStyle(fontSize: 20.0, color: Colors.black)),
+          child: FittedBox(
+              child: Text(views[2]['title'], style: TextStyle(color: Colors.black))
+          ),
         ),
       ];
   }
