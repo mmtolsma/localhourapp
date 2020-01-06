@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
-import 'app_screens/tab-creation.dart';
 
-void main() => runApp(MaterialApp(
-      title: "Local Hour application",
+import 'app_screens/login-page.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyTabs(),
-    ));
+      title: 'localhour',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: LoginPage(),
+    );
+  }
+}

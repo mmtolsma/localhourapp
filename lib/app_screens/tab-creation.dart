@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localhour/components/options-menu.dart';
 import 'package:localhour/app_screens/specials-list.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:localhour/components/sign-in.dart';
 
 const Color COLORS_BG = Colors.white;
 const Color COLORS_0 = Colors.redAccent;
@@ -107,6 +109,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
           }
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
                 backgroundColor: COLORS_BG,
                 title: Padding(
                   padding: const EdgeInsets.only(top: 10.0),
@@ -145,6 +148,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
               children: <Widget>[
                 Scaffold(
                     appBar: AppBar(
+                        automaticallyImplyLeading: false,
                         backgroundColor: colorForTab(tabIndex),
                         centerTitle: true,
                         title: Text(snapshot.data[0]['heading'], style: TextStyle(color: Colors.black),)),
@@ -155,6 +159,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                     )),
                 Scaffold(
                   appBar: AppBar(
+                      automaticallyImplyLeading: false,
                       backgroundColor: colorForTab(tabIndex),
                       centerTitle: true,
                       title: Text(snapshot.data[1]['heading'], style: TextStyle(color: Colors.black),)),
@@ -167,6 +172,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                 ),
                 Scaffold(
                     appBar: AppBar(
+                        automaticallyImplyLeading: false,
                         backgroundColor: colorForTab(tabIndex),
                         centerTitle: true,
                         title: Text(snapshot.data[2]['heading'], style: TextStyle(color: Colors.black),)),
@@ -189,7 +195,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
       print('Sign In');
     }
     else if(choice == MenuItems.SignOut) {
-      print('Sign Out');
+      signOutGoogle(context);
     }
   }
 }
