@@ -68,9 +68,6 @@ class SpecialsListItemState extends State<SpecialsListItem> {
                   ),
                   data: venue,
                 )
-//                Text(venue,
-//                    style: TextStyle(fontSize: 20.0, color: Colors.black)
-//                ),
               ],
             ),
 
