@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () async {
         String result = await signInWithGoogle();
         if (result == 'Succeed') {
-          Navigator.pushNamed(context, '/specials');
+          Navigator.pushNamed(context, '/specials'); //'specials' = tab-creation page
         }
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),

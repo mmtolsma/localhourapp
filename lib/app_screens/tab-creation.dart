@@ -20,6 +20,7 @@ class MyTabs extends StatefulWidget {
 
 class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   final String url = 'https://local.ponelat.com'; //API url
+  final String googleUserUrl = globalData.user.photoUrl;
   TabController controller;
   int tabIndex = 0;
   Future<List> specials;
@@ -85,7 +86,6 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    //print("import successful" + globalData.user.displayName);
     return FutureBuilder(
         future: specials,
         builder: (context, snapshot) {
@@ -117,12 +117,20 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Row(
                       children: <Widget>[
-                        Image.asset('images/localhourlogo.png', fit: BoxFit.contain, height: 60.0),
+                        Image.asset('images/localhourlogo.png', height: 60.0,),
                       ]),
                 ),
                 actions: <Widget>[
                   PopupMenuButton<String>(
-                    icon: Icon(Icons.settings, color: Colors.black),
+                    icon: Container(
+                      child: ClipOval(
+                        child: Align(
+                          heightFactor: 1,
+                          widthFactor: 1,
+                          child: Image.network(googleUserUrl),
+                        ),
+                      )
+                    ),
                     onSelected: choiceAction,
                     itemBuilder: (BuildContext context) {
                       return MenuItems.choices.map((String choice) {
