@@ -121,25 +121,26 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                       ]),
                 ),
                 actions: <Widget>[
-                  PopupMenuButton<String>(
-                    icon: Container(
-                      child: ClipOval(
+                  Container(
+                    width: 60.0,
+                    child: PopupMenuButton<String>(
+                      icon: ClipOval(
                         child: Align(
                           heightFactor: 1,
                           widthFactor: 1,
                           child: Image.network(googleUserUrl),
                         ),
-                      )
+                      ),
+                      onSelected: choiceAction,
+                      itemBuilder: (BuildContext context) {
+                        return MenuItems.choices.map((String choice) {
+                          return PopupMenuItem<String> (
+                            value: choice,
+                            child: Text(choice),
+                          );
+                        }).toList();
+                      },
                     ),
-                    onSelected: choiceAction,
-                    itemBuilder: (BuildContext context) {
-                      return MenuItems.choices.map((String choice) {
-                        return PopupMenuItem<String> (
-                          value: choice,
-                          child: Text(choice),
-                        );
-                      }).toList();
-                    },
                   )
                 ],
                 bottom: TabBar(
