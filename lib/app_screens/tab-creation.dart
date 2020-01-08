@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localhour/components/sign-in.dart';
+import 'package:localhour/global-data.dart';
 
 const Color COLORS_BG = Colors.white;
 const Color COLORS_0 = Colors.redAccent;
@@ -84,6 +85,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    //print("import successful" + globalData.user.displayName);
     return FutureBuilder(
         future: specials,
         builder: (context, snapshot) {
@@ -188,13 +190,13 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   }
 
   void choiceAction(String choice) {
-    if(choice == MenuItems.Settings) {
-      print('Settings');
-    }
-    else if(choice == MenuItems.SignIn) {
-      print('Sign In');
-    }
-    else if(choice == MenuItems.SignOut) {
+//    if(choice == MenuItems.Settings) {
+//      print('Settings');
+//    }
+//    else if(choice == MenuItems.SignIn) {
+//      print('Sign In');
+//    }
+    if(choice == MenuItems.SignOut) {
       signOutGoogle(context);
     }
   }

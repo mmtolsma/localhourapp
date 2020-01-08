@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:localhour/app_screens/tab-creation.dart';
 import 'package:localhour/components/sign-in.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,17 +30,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget _signInButton() {
     return OutlineButton(
       splashColor: Colors.grey,
-        onPressed: () {
-          signInWithGoogle().whenComplete(() {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return MyTabs();
-                },
-              ),
-            );
-          }
-        );
+      onPressed: () async {
+        String result = await signInWithGoogle();
+        if (result == 'Succeed') {
+          Navigator.pushNamed(context, '/specials');
+        }
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
