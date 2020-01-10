@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localhour/components/sign-in.dart';
+import 'package:localhour/firebase-analytics.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    //analytics.setCurrentScreen(screenName: 'Login Page'); //setting page name for analytics
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -33,8 +35,11 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () async {
         String result = await signInWithGoogle();
         if (result == 'Succeed') {
-          Navigator.pushNamed(context, '/specials'); //'specials' = tab-creation page
+          Navigator.pushNamed(context, '/specials-page');//'specials' = tab-creation page
+          onLogin(result);
         }
+        else
+          print("error logging in");
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
@@ -61,4 +66,14 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+void onLogin(result) {
+  if(result == 'Succeed')
+    {
+      analytics.logLogin();
+      print("Log in successful");
+    }
+  else
+    print("Error delivering login stats");
 }

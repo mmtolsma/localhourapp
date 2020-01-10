@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localhour/components/sign-in.dart';
 import 'package:localhour/global-data.dart';
+import 'package:localhour/firebase-analytics.dart';
 
 const Color COLORS_BG = Colors.white;
 const Color COLORS_0 = Colors.redAccent;
@@ -86,6 +87,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    //analytics.setCurrentScreen(screenName: 'Specials Page'); //setting page name for analytics
     return FutureBuilder(
         future: specials,
         builder: (context, snapshot) {

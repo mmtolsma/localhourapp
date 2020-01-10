@@ -1,6 +1,8 @@
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:localhour/app_screens/tab-creation.dart';
 import 'app_screens/login-page.dart';
+import 'package:localhour/firebase-analytics.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/login-page': (context) => LoginPage(),
-        '/specials' : (context) => MyTabs(),
+        '/specials-page' : (context) => MyTabs(),
         },
       debugShowCheckedModeBanner: false,
       title: 'localhour',
@@ -19,6 +21,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: LoginPage(),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
     );
   }
 }
