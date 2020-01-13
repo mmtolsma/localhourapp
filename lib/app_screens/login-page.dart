@@ -10,7 +10,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    //analytics.setCurrentScreen(screenName: 'Login Page'); //setting page name for analytics
     return Scaffold(
       body: Container(
         color: Colors.white,

@@ -15,20 +15,11 @@ const Color COLORS_1 = Colors.yellow;
 const Color COLORS_2 = Colors.orangeAccent;
 
 class MyTabs extends StatefulWidget {
-//  MyTabs(this.observer);
-//
-//  final FirebaseAnalyticsObserver observer;
-//
-//  static const String routeName = '/tab';
-
   @override
   MyTabsState createState() => MyTabsState(); //observer
 }
 
-class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin, RouteAware {
-  //MyTabsState(this.observer);
-
-  //final FirebaseAnalyticsObserver observer;
+class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   final String url = 'https://local.ponelat.com'; //API url
   final String googleUserUrl = globalData.user.photoUrl;
   TabController controller;
@@ -61,7 +52,6 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin, Rou
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //observer.subscribe(this, ModalRoute.of(context));
   }
 
   @override
@@ -70,14 +60,6 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin, Rou
     specials = getSpecials();
     controller = TabController(vsync: this, length: 3, initialIndex: tabIndex);
     controller.addListener(updateTabColorFromControllerIndex);
-//    controller.addListener(() {
-//      setState(() {
-//        if (tabIndex != controller.index) {
-//          tabIndex = controller.index;
-//          _sendCurrentTabToAnalytics();
-//        }
-//      });
-//    });
   }
 
   updateTabColorFromControllerIndex() {
@@ -88,7 +70,6 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin, Rou
 
   @override
   void dispose() {
-    //observer.unsubscribe(this);
     controller.removeListener(updateTabColorFromControllerIndex);
     controller.dispose();
     super.dispose();
@@ -111,7 +92,6 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin, Rou
 
   @override
   Widget build(BuildContext context) {
-    //analytics.setCurrentScreen(screenName: 'Specials Page'); //setting page name for analytics
     return FutureBuilder(
         future: specials,
         builder: (context, snapshot) {
@@ -216,7 +196,8 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin, Rou
                     body: SpecialsList(
                       specials: snapshot.data[2]['specials'],
                       specialsIndex: 2,
-                      refresh: getSpecialsForIndex,)),
+                      refresh: getSpecialsForIndex,)
+                ),
               ],
             ),
           );
@@ -224,29 +205,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin, Rou
     );
   }
 
-//  @override
-//  void didPush() {
-//    _sendCurrentTabToAnalytics();
-//  }
-//
-//  @override
-//  void didPopNext() {
-//    _sendCurrentTabToAnalytics();
-//  }
-
-//  void _sendCurrentTabToAnalytics() {
-//    observer.analytics.setCurrentScreen(
-//      screenName: '${MyTabs.routeName}/tab$tabIndex',
-//    );
-//  }
-
   void choiceAction(String choice) {
-//    if(choice == MenuItems.Settings) {
-//      print('Settings');
-//    }
-//    else if(choice == MenuItems.SignIn) {
-//      print('Sign In');
-//    }
     if(choice == MenuItems.SignOut) {
       signOutGoogle(context);
     }
