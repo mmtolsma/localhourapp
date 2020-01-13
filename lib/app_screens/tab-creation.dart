@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localhour/components/sign-in.dart';
 import 'package:localhour/global-data.dart';
-import 'package:localhour/firebase-analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 const Color COLORS_BG = Colors.white;
 const Color COLORS_0 = Colors.redAccent;
@@ -15,11 +15,20 @@ const Color COLORS_1 = Colors.yellow;
 const Color COLORS_2 = Colors.orangeAccent;
 
 class MyTabs extends StatefulWidget {
+//  MyTabs(this.observer);
+//
+//  final FirebaseAnalyticsObserver observer;
+//
+//  static const String routeName = '/tab';
+
   @override
-  MyTabsState createState() => MyTabsState();
+  MyTabsState createState() => MyTabsState(); //observer
 }
 
-class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
+class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin, RouteAware {
+  //MyTabsState(this.observer);
+
+  //final FirebaseAnalyticsObserver observer;
   final String url = 'https://local.ponelat.com'; //API url
   final String googleUserUrl = globalData.user.photoUrl;
   TabController controller;
@@ -50,11 +59,25 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    //observer.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
   void initState() {
     super.initState();
     specials = getSpecials();
-    controller = TabController(vsync: this, length: 3);
+    controller = TabController(vsync: this, length: 3, initialIndex: tabIndex);
     controller.addListener(updateTabColorFromControllerIndex);
+//    controller.addListener(() {
+//      setState(() {
+//        if (tabIndex != controller.index) {
+//          tabIndex = controller.index;
+//          _sendCurrentTabToAnalytics();
+//        }
+//      });
+//    });
   }
 
   updateTabColorFromControllerIndex() {
@@ -65,6 +88,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
+    //observer.unsubscribe(this);
     controller.removeListener(updateTabColorFromControllerIndex);
     controller.dispose();
     super.dispose();
@@ -199,6 +223,22 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
         }
     );
   }
+
+//  @override
+//  void didPush() {
+//    _sendCurrentTabToAnalytics();
+//  }
+//
+//  @override
+//  void didPopNext() {
+//    _sendCurrentTabToAnalytics();
+//  }
+
+//  void _sendCurrentTabToAnalytics() {
+//    observer.analytics.setCurrentScreen(
+//      screenName: '${MyTabs.routeName}/tab$tabIndex',
+//    );
+//  }
 
   void choiceAction(String choice) {
 //    if(choice == MenuItems.Settings) {

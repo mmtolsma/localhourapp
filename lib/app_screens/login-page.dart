@@ -33,10 +33,11 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () async {
+        FireBaseAnalyticsData user = new FireBaseAnalyticsData();
         String result = await signInWithGoogle();
-        if (result == 'Succeed') {
-          Navigator.pushNamed(context, '/specials-page');//'specials' = tab-creation page
-          onLogin(result);
+        if (result == "Succeed") {
+          Navigator.pushNamed(context, '/specials-page'); //'specials' = tab-creation page
+          user.onLogin(result); //track login
         }
         else
           print("error logging in");
@@ -66,14 +67,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
-
-void onLogin(result) {
-  if(result == 'Succeed')
-    {
-      analytics.logLogin();
-      print("Log in successful");
-    }
-  else
-    print("Error delivering login stats");
 }
