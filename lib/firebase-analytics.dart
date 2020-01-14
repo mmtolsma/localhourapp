@@ -4,8 +4,8 @@ final FirebaseAnalytics analytics = FirebaseAnalytics();
 
 class FireBaseAnalyticsData {
 
-  void onLogin(var result) {
-    if(result == "Succeed")
+  void onLogin(bool result) {
+    if(result)
     {
       analytics.logLogin();
       print("Log in successful");
@@ -13,6 +13,5 @@ class FireBaseAnalyticsData {
     else
       print("Error delivering login stats");
   }
-
 }
 
