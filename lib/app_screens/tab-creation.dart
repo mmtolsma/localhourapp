@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localhour/components/sign-in.dart';
 import 'package:localhour/global-data.dart';
-import 'package:firebase_analytics/observer.dart';
 
 const Color COLORS_BG = Colors.white;
 const Color COLORS_0 = Colors.redAccent;
@@ -16,7 +15,7 @@ const Color COLORS_2 = Colors.orangeAccent;
 
 class MyTabs extends StatefulWidget {
   @override
-  MyTabsState createState() => MyTabsState(); //observer
+  MyTabsState createState() => MyTabsState();
 }
 
 class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
