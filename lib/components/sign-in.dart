@@ -6,7 +6,7 @@ import 'package:localhour/global-data.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
-Future<String> signInWithGoogle() async {
+Future<bool> signInWithGoogle() async {
   try{
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
@@ -20,7 +20,7 @@ Future<String> signInWithGoogle() async {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     final FirebaseUser user = authResult.user; //create new file, make a class, one of its fields is a Firebase User and you import it and assign it to this class. Singleton. ***Get user object into the tab file***
 
-    globalData.user = user;
+    globalData.user = user; //this accesses .uid / .displayName / .email / .photoUrl
 
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
@@ -28,9 +28,14 @@ Future<String> signInWithGoogle() async {
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    return 'Succeed';
+    print(globalData.user.uid);
+    print(globalData.user.email);
+    print(globalData.user.displayName);
+    print(globalData.user.photoUrl);
+
+    return true;
   } catch (error) {
-    return 'error';
+    return false;
   }
 }
 
