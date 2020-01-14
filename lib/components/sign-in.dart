@@ -28,11 +28,6 @@ Future<bool> signInWithGoogle() async {
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    print(globalData.user.uid);
-    print(globalData.user.email);
-    print(globalData.user.displayName);
-    print(globalData.user.photoUrl);
-
     return true;
   } catch (error) {
     return false;
