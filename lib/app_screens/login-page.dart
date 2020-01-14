@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localhour/components/sign-in.dart';
 import 'package:localhour/firebase-analytics.dart';
+import 'dart:io';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,6 +9,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  createAlertDialog(BuildContext context) {
+    return showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text("Connection problem!"),
+        content: Text("No internet connection detected!"),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +43,23 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () async {
-        FireBaseAnalyticsData user = new FireBaseAnalyticsData();
-        String result = await signInWithGoogle();
-        if (result == "Succeed") {
-          Navigator.pushNamed(context, '/specials-page'); //'specials' = tab-creation page
-          user.onLogin(result); //track login
+        try {
+          final result = await InternetAddress.lookup('google.com');
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+            print('connected');
+            bool result = await signInWithGoogle();
+            FireBaseAnalyticsData user = new FireBaseAnalyticsData();
+            if (result) {
+              Navigator.pushNamed(context, '/specials-page');//'specials' = tab-creation page
+              user.onLogin(result);
+            }
+            else
+              print("error logging in");
+          }
+        } on SocketException catch (_) {
+          createAlertDialog(context);
+          print('not connected');
         }
-        else
-          print("error logging in");
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
