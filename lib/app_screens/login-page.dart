@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pushNamed(context, '/specials-page');//'specials' = tab-creation page
               fireBaseAnalyticsDataObject.tabChanged(1, 0);
               //Pretty bad way of recording Today_Tab_View on landing
+              //This won't work if user is already signed in and login page skipped
               fireBaseAnalyticsDataObject.onLogin(result);
             }
             else

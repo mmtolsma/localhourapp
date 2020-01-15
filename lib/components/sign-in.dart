@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:localhour/global-data.dart';
+import 'package:localhour/firebase-analytics.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn googleSignIn = GoogleSignIn();
+final GoogleSignIn googleSignIn = new GoogleSignIn();
 
 Future<bool> signInWithGoogle() async {
   try{
@@ -18,7 +19,7 @@ Future<bool> signInWithGoogle() async {
     );
 
     final AuthResult authResult = await _auth.signInWithCredential(credential);
-    final FirebaseUser user = authResult.user; //create new file, make a class, one of its fields is a Firebase User and you import it and assign it to this class. Singleton. ***Get user object into the tab file***
+    final FirebaseUser user = authResult.user;
 
     globalData.user = user; //this accesses .uid / .displayName / .email / .photoUrl
 
@@ -34,8 +35,9 @@ Future<bool> signInWithGoogle() async {
   }
 }
 
-void signOutGoogle(context) async{
+void signOutGoogle(context, result) async{
   await googleSignIn.signOut();
+  fireBaseAnalyticsDataObject.onSignOut(result);
   Navigator.pushNamed(context, '/login-page');
   print("User Sign Out");
 }
