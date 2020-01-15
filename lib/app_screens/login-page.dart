@@ -48,10 +48,11 @@ class _LoginPageState extends State<LoginPage> {
           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
             print('connected');
             bool result = await signInWithGoogle();
-            FireBaseAnalyticsData user = new FireBaseAnalyticsData();
             if (result) {
               Navigator.pushNamed(context, '/specials-page');//'specials' = tab-creation page
-              user.onLogin(result);
+              fireBaseAnalyticsDataObject.tabChanged(1, 0);
+              //Pretty bad way of recording Today_Tab_View on landing
+              fireBaseAnalyticsDataObject.onLogin(result);
             }
             else
               print("error logging in");
