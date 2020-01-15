@@ -7,9 +7,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localhour/components/sign-in.dart';
 import 'package:localhour/global-data.dart';
+import 'package:localhour/firebase-analytics.dart';
 
 const Color COLORS_BG = Colors.white;
-const Color COLORS_0 = Colors.redAccent;
+const Color COLORS_0 = Colors.greenAccent;
 const Color COLORS_1 = Colors.yellow;
 const Color COLORS_2 = Colors.orangeAccent;
 
@@ -59,10 +60,14 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
     specials = getSpecials();
     controller = TabController(vsync: this, length: 3, initialIndex: tabIndex);
     controller.addListener(updateTabColorFromControllerIndex);
+    //listener called twice on tap, once on swipe (reason below)
+    //https://github.com/flutter/flutter/issues/13848#issuecomment-354887932
   }
 
   updateTabColorFromControllerIndex() {
     setState(() {
+      fireBaseAnalyticsDataObject.tabChanged(tabIndex, controller.index); //tracking of tab changes
+      //How do I pass the title text (today, tom, next) from specials data?
       tabIndex = controller.index;
     });
   }
@@ -152,11 +157,14 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                     controller: controller,
                     tabs: myTabs(snapshot.data),
                     indicator: BoxDecoration(color: colorForTab(tabIndex)),
-                    onTap: (index) {
-                      setState(() {
-                        tabIndex = index;
-                      });
-                    }
+//                    onTap: (index) { //This section does fuck-all for the app?? Comment out and see.
+//                      setState(() {
+//                        fireBaseAnalyticsDataObject.tabChanged(
+//                            tabIndex, index, snapshot.data[index]['title']); //tab tracking
+//                        tabIndex = index;
+//                      }
+//                      );
+//                    }
                 )
             ),
             body: TabBarView(
@@ -172,19 +180,19 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                       specials: snapshot.data[0]['specials'],
                       specialsIndex: 0,
                       refresh: getSpecialsForIndex,
-                    )),
+                    ),
+                ),
                 Scaffold(
-                  appBar: AppBar(
+                    appBar: AppBar(
                       automaticallyImplyLeading: false,
                       backgroundColor: colorForTab(tabIndex),
                       centerTitle: true,
                       title: Text(snapshot.data[1]['heading'], style: TextStyle(color: Colors.black),)),
-                  body: SpecialsList(
-                    specials: snapshot.data[1]['specials'],
-                    specialsIndex: 1,
-                    refresh: getSpecialsForIndex,
+                    body: SpecialsList(
+                      specials: snapshot.data[1]['specials'],
+                      specialsIndex: 1,
+                      refresh: getSpecialsForIndex,
                   ),
-
                 ),
                 Scaffold(
                     appBar: AppBar(
@@ -206,7 +214,8 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
   void choiceAction(String choice) {
     if(choice == MenuItems.SignOut) {
-      signOutGoogle(context);
+      bool result = true;
+      signOutGoogle(context, result);
     }
   }
 }
