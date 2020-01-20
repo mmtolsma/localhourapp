@@ -42,8 +42,9 @@ class SpecialsListState extends State<SpecialsList> {
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 40.0,
-      ),
-    ));
+        ),
+      )
+    );
   }
 
   Future<Null> refreshList() async {
