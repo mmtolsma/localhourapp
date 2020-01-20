@@ -35,30 +35,18 @@ class FireBaseAnalyticsData {
   }
 
   //Record tab change on swipe and tap
-  void tabChanged(int tabIndex, int index) {
+  void tabChanged(int prevIndex, int currentIndex, Future<List> specials) {
 
-    String tabTitle;
+    specials.then((data) {
+      if(currentIndex != prevIndex) {
+        analytics.logEvent(
+            name: "tab_changed",
+            parameters: {'tab_name': data[currentIndex]['title'],
+              'prev_tab_name': data[prevIndex]['title']}
+        );
+      }
+    });
 
-    switch(index) { //This is not ideal, but I don't know how to pass in the title data dynamically
-      case 0:
-        tabTitle = "Today";
-        break;
-      case 1:
-        tabTitle = "Tomorrow";
-        break;
-      case 2:
-        tabTitle = "Next_day"; //Can't have spaces for FireBase events
-        break;
-      default:
-        tabTitle = "Error";
-    }
-
-    if(index != tabIndex) {
-      analytics.logEvent(
-          name: "$tabTitle" + "_Tab_View",
-          parameters: {'Tab_Name': tabTitle}
-      );
-    }
   }
 }
 
