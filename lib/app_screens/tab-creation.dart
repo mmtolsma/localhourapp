@@ -66,8 +66,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
   updateTabColorFromControllerIndex() {
     setState(() {
-      fireBaseAnalyticsDataObject.tabChanged(tabIndex, controller.index); //tracking of tab changes
-      //How do I pass the title text (today, tom, next) from specials data?
+      fireBaseAnalyticsDataObject.tabChanged(tabIndex, controller.index, specials); //tracking of tab changes
       tabIndex = controller.index;
     });
   }
@@ -157,14 +156,6 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                     controller: controller,
                     tabs: myTabs(snapshot.data),
                     indicator: BoxDecoration(color: colorForTab(tabIndex)),
-//                    onTap: (index) { //This section does fuck-all for the app?? Comment out and see.
-//                      setState(() {
-//                        fireBaseAnalyticsDataObject.tabChanged(
-//                            tabIndex, index, snapshot.data[index]['title']); //tab tracking
-//                        tabIndex = index;
-//                      }
-//                      );
-//                    }
                 )
             ),
             body: TabBarView(

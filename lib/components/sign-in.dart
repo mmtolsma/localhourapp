@@ -3,9 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:localhour/global-data.dart';
 import 'package:localhour/firebase-analytics.dart';
+import 'package:localhour/app_screens/tab-creation.dart';
+
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = new GoogleSignIn();
+final MyTabsState tabPageObject = new MyTabsState();
 
 Future<bool> signInWithGoogle() async {
   try{
@@ -38,6 +41,6 @@ Future<bool> signInWithGoogle() async {
 void signOutGoogle(context, result) async{
   await googleSignIn.signOut();
   fireBaseAnalyticsDataObject.onSignOut(result);
-  Navigator.pushNamed(context, '/login-page');
+  Navigator.popUntil(context, ModalRoute.withName('/login-page'));
   print("User Sign Out");
 }

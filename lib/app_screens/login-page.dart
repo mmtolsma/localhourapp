@@ -10,11 +10,14 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  createAlertDialog(BuildContext context) {
+  noInternetAlertDialog(BuildContext context) {
     return showDialog(context: context, builder: (context){
+      Future.delayed(Duration(seconds: 3), () {
+        Navigator.of(context).pop(true);
+      });
       return AlertDialog(
-        title: Text("Connection problem!"),
-        content: Text("No internet connection detected!"),
+        title: Text("Connection problem!", textAlign: TextAlign.center,),
+        content: Text("No internet connection detected!", textAlign: TextAlign.center,),
       );
     });
   }
@@ -50,16 +53,13 @@ class _LoginPageState extends State<LoginPage> {
             bool result = await signInWithGoogle();
             if (result) {
               Navigator.pushNamed(context, '/specials-page');//'specials' = tab-creation page
-              fireBaseAnalyticsDataObject.tabChanged(1, 0);
-              //Pretty bad way of recording Today_Tab_View on landing
-              //This won't work if user is already signed in and login page skipped
               fireBaseAnalyticsDataObject.onLogin(result);
             }
             else
               print("error logging in");
           }
         } on SocketException catch (_) {
-          createAlertDialog(context);
+          noInternetAlertDialog(context);
           print('not connected');
         }
       },

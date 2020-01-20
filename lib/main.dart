@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/login-page',
       routes: {
         '/login-page': (context) => LoginPage(),
         '/specials-page' : (context) => MyTabs(),
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      //home: LoginPage(), //Warning: When using initialRoute, don’t define a home property.
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
       ],
