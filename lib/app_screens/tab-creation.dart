@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localhour/components/options-menu.dart';
@@ -15,13 +16,33 @@ const Color COLORS_1 = Colors.yellow;
 const Color COLORS_2 = Colors.orangeAccent;
 
 class MyTabs extends StatefulWidget {
+  final String userDisplayName;
+  final String userPhotoUrl;
+  final String userEmail;
+
   @override
-  MyTabsState createState() => MyTabsState();
+  MyTabs({this.userDisplayName,
+          this.userPhotoUrl,
+          this.userEmail,});
+
+  @override
+  MyTabsState createState() => MyTabsState(
+      userDisplayName: userDisplayName,
+      userPhotoUrl: userPhotoUrl,
+      userEmail: userEmail);
 }
 
 class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
+  String userDisplayName;
+  String userPhotoUrl;
+  String userEmail;
+
+  MyTabsState({
+    this.userDisplayName,
+    this.userPhotoUrl,
+    this.userEmail,});
+
   final String url = 'https://local.ponelat.com'; //API url
-  final String googleUserUrl = globalData.user.photoUrl;
   TabController controller;
   int tabIndex = 0;
   Future<List> specials;
@@ -47,6 +68,28 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
         ),
       ),
     ];
+  }
+
+  Future<bool> _onWillPop() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Are you sure?'),
+        content: Text('Exit localhour?'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('No'),
+          ),
+          FlatButton(
+            onPressed: () => exit(0),
+            /*Navigator.of(context).pop(true)*/
+            child: Text('Yes'),
+          ),
+        ],
+      ),
+    ) ?? // ?? = "if null"
+        false; //i.e. if null, return false
   }
 
   @override
@@ -118,85 +161,90 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
               ],
             );
           }
-          return Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-                backgroundColor: COLORS_BG,
-                title: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Row(
-                      children: <Widget>[
-                        Image.asset('images/localhourlogo.png', height: 60.0,),
-                      ]),
-                ),
-                actions: <Widget>[
-                  Container(
-                    width: 60.0,
-                    child: PopupMenuButton<String>(
-                      icon: ClipOval(
-                        child: Align(
-                          heightFactor: 1,
-                          widthFactor: 1,
-                          child: Image.network(googleUserUrl),
-                        ),
-                      ),
-                      onSelected: choiceAction,
-                      itemBuilder: (BuildContext context) {
-                        return MenuItems.choices.map((String choice) {
-                          return PopupMenuItem<String> (
-                            value: choice,
-                            child: Text(choice),
-                          );
-                        }).toList();
-                      },
-                    ),
-                  )
-                ],
-                bottom: TabBar(
-                    controller: controller,
-                    tabs: myTabs(snapshot.data),
-                    indicator: BoxDecoration(color: colorForTab(tabIndex)),
-                )
-            ),
-            body: TabBarView(
-              controller: controller,
-              children: <Widget>[
-                Scaffold(
-                    appBar: AppBar(
-                        automaticallyImplyLeading: false,
-                        backgroundColor: colorForTab(tabIndex),
-                        centerTitle: true,
-                        title: Text(snapshot.data[0]['heading'], style: TextStyle(color: Colors.black),)),
-                    body: SpecialsList(
-                      specials: snapshot.data[0]['specials'],
-                      specialsIndex: 0,
-                      refresh: getSpecialsForIndex,
-                    ),
-                ),
-                Scaffold(
-                    appBar: AppBar(
-                      automaticallyImplyLeading: false,
-                      backgroundColor: colorForTab(tabIndex),
-                      centerTitle: true,
-                      title: Text(snapshot.data[1]['heading'], style: TextStyle(color: Colors.black),)),
-                    body: SpecialsList(
-                      specials: snapshot.data[1]['specials'],
-                      specialsIndex: 1,
-                      refresh: getSpecialsForIndex,
+          return WillPopScope(
+            onWillPop: _onWillPop,
+            child: Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                  backgroundColor: COLORS_BG,
+                  title: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Row(
+                        children: <Widget>[
+                          Image.asset('images/localhourlogo.png', height: 60.0,),
+                        ]),
                   ),
-                ),
-                Scaffold(
-                    appBar: AppBar(
+                  actions: <Widget>[
+                    Container(
+                      width: 60.0,
+                      child: PopupMenuButton<String>(
+                        icon: ClipOval(
+                          child: Align(
+                            heightFactor: 1,
+                            widthFactor: 1,
+                            child: Image.network(
+                                userPhotoUrl != null ? userPhotoUrl
+                                    : "http://joshuaallenshaw.com/kiss/wp-content/uploads/sites/2/2019/04/blank-profile-picture-973460_1280-1024x1024.png"),
+                          ),
+                        ),
+                        onSelected: choiceAction,
+                        itemBuilder: (BuildContext context) {
+                          return MenuItems.choices.map((String choice) {
+                            return PopupMenuItem<String> (
+                              value: choice,
+                              child: Text(choice),
+                            );
+                          }).toList();
+                        },
+                      ),
+                    )
+                  ],
+                  bottom: TabBar(
+                      controller: controller,
+                      tabs: myTabs(snapshot.data),
+                      indicator: BoxDecoration(color: colorForTab(tabIndex)),
+                  )
+              ),
+              body: TabBarView(
+                controller: controller,
+                children: <Widget>[
+                  Scaffold(
+                      appBar: AppBar(
+                          automaticallyImplyLeading: false,
+                          backgroundColor: colorForTab(tabIndex),
+                          centerTitle: true,
+                          title: Text(snapshot.data[0]['heading'], style: TextStyle(color: Colors.black),)),
+                      body: SpecialsList(
+                        specials: snapshot.data[0]['specials'],
+                        specialsIndex: 0,
+                        refresh: getSpecialsForIndex,
+                      ),
+                  ),
+                  Scaffold(
+                      appBar: AppBar(
                         automaticallyImplyLeading: false,
                         backgroundColor: colorForTab(tabIndex),
                         centerTitle: true,
-                        title: Text(snapshot.data[2]['heading'], style: TextStyle(color: Colors.black),)),
-                    body: SpecialsList(
-                      specials: snapshot.data[2]['specials'],
-                      specialsIndex: 2,
-                      refresh: getSpecialsForIndex,)
-                ),
-              ],
+                        title: Text(snapshot.data[1]['heading'], style: TextStyle(color: Colors.black),)),
+                      body: SpecialsList(
+                        specials: snapshot.data[1]['specials'],
+                        specialsIndex: 1,
+                        refresh: getSpecialsForIndex,
+                    ),
+                  ),
+                  Scaffold(
+                      appBar: AppBar(
+                          automaticallyImplyLeading: false,
+                          backgroundColor: colorForTab(tabIndex),
+                          centerTitle: true,
+                          title: Text(snapshot.data[2]['heading'], style: TextStyle(color: Colors.black),)),
+                      body: SpecialsList(
+                        specials: snapshot.data[2]['specials'],
+                        specialsIndex: 2,
+                        refresh: getSpecialsForIndex,)
+                  ),
+                ],
+              ),
             ),
           );
         }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localhour/components/sign-in.dart';
 import 'package:localhour/firebase-analytics.dart';

@@ -23,12 +23,12 @@ class FireBaseAnalyticsData {
       print("Error delivering login stats");
   }
 
-  //Record sign out
+//  //Record sign out
   void onSignOut(bool result) {
     if(result) {
       analytics.logEvent(
           name: 'Signed_out',
-          parameters: {'User_name': globalData.user.displayName});
+          parameters: {'User_name': "To_be_fixed"}); //globalData.user.displayName. Get's called on 'null'
     }
     else
       print("Could not send sign out stats");
