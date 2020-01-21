@@ -11,13 +11,8 @@ class FireBaseAnalyticsData {
     if(result)
     {
       analytics.logLogin();
-      print("Log in successful");
-
       analytics.setUserProperty(name: 'Username', value: globalData.user.displayName);
-      print("Username captured: " + globalData.user.displayName);
-
       analytics.setUserProperty(name: 'Email', value: globalData.user.email);
-      print("Email captured: " + globalData.user.email);
     }
     else
       print("Error delivering login stats");
@@ -28,7 +23,8 @@ class FireBaseAnalyticsData {
     if(result) {
       analytics.logEvent(
           name: 'Signed_out',
-          parameters: {'User_name': "To_be_fixed"}); //globalData.user.displayName. Get's called on 'null'
+          parameters: {'User_name': "Still_an_issue"}); //globalData.user.displayName.toString()
+          //Doesn't work when user is signed in from before
     }
     else
       print("Could not send sign out stats");
@@ -36,7 +32,6 @@ class FireBaseAnalyticsData {
 
   //Record tab change on swipe and tap
   void tabChanged(int prevIndex, int currentIndex, Future<List> specials) {
-
     specials.then((data) {
       if(currentIndex != prevIndex) {
         analytics.logEvent(
@@ -46,7 +41,6 @@ class FireBaseAnalyticsData {
         );
       }
     });
-
   }
 }
 
