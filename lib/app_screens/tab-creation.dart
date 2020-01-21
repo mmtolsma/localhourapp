@@ -7,7 +7,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localhour/components/sign-in.dart';
-import 'package:localhour/global-data.dart';
 import 'package:localhour/firebase-analytics.dart';
 
 const Color COLORS_BG = Colors.white;
@@ -83,6 +82,8 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
           ),
           FlatButton(
             onPressed: () => exit(0),
+            //exit(0): Works but Apple may SUSPEND YOUR APP because it's against Apple Human Interface guidelines to exit the app programmatically.
+            //https://stackoverflow.com/questions/45109557/flutter-how-to-programmatically-exit-the-app
             /*Navigator.of(context).pop(true)*/
             child: Text('Yes'),
           ),
@@ -183,8 +184,9 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
                             heightFactor: 1,
                             widthFactor: 1,
                             child: Image.network(
-                                userPhotoUrl != null ? userPhotoUrl
-                                    : "http://joshuaallenshaw.com/kiss/wp-content/uploads/sites/2/2019/04/blank-profile-picture-973460_1280-1024x1024.png"),
+                                userPhotoUrl != null ? userPhotoUrl.toString()
+                                    : "http://joshuaallenshaw.com/kiss/wp-content/uploads/sites/2/2019/04/blank-profile-picture-973460_1280-1024x1024.png"
+                            ),
                           ),
                         ),
                         onSelected: choiceAction,
