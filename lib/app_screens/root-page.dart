@@ -12,8 +12,7 @@ class RootPage extends StatelessWidget {
           if (snapshot.hasData){
             print(snapshot.data.displayName);
             FirebaseUser user = snapshot.data; // this is your user instance
-            /// is because there is user already logged
-            return MyTabs(
+            return MyTabs( //passing parameters to MyTabs in order to load user data if previously signed in
               userDisplayName: user.displayName,
               userPhotoUrl: user.photoUrl,
               userEmail: user.email,
