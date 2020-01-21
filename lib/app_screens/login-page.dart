@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:localhour/app_screens/tab-creation.dart';
 import 'package:localhour/components/sign-in.dart';
 import 'package:localhour/firebase-analytics.dart';
 import 'dart:io';
+
+import 'package:localhour/global-data.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -53,7 +56,21 @@ class _LoginPageState extends State<LoginPage> {
             print('connected');
             bool result = await signInWithGoogle();
             if (result) {
-              Navigator.pushNamed(context, '/specials-page');//'specials' = tab-creation page
+//              Navigator.pushNamed(context, '/specials-page',
+//                  arguments: MyTabs(
+//                    userDisplayName: globalData.user.displayName.toString(),
+//                    userEmail: globalData.user.email.toString(),
+//                    userPhotoUrl: globalData.user.photoUrl.toString(),
+//                  )
+//              ); //This doesn't work. Think applying arguments to routenames is a bit more challenging
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyTabs(
+                    userPhotoUrl: globalData.user.photoUrl.toString(),
+                    userEmail: globalData.user.email.toString(),
+                    userDisplayName: globalData.user.displayName.toString(),
+                  )
+                ),
+              );
               fireBaseAnalyticsDataObject.onLogin(result);
             }
             else
