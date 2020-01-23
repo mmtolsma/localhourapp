@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:localhour/firebase-analytics.dart';
 
 class SpecialsListItem extends StatefulWidget {
   final String venue;
@@ -44,6 +45,14 @@ class SpecialsListItemState extends State<SpecialsListItem> {
   }
 
   toggleExpand() {
+    fireBaseAnalyticsDataObject.specialExpanded( //to-do: potentially fishy code
+        venue,
+        specialSummary,
+        dayOfWeek,
+        !isExpanded,
+      //using ! to catch the opposite of what is actually is?
+    ); //function to record tapping individual specials
+
     setState(() {
       isExpanded = !isExpanded;
     });
