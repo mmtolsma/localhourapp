@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:localhour/components/options-menu.dart';
 import 'package:localhour/app_screens/specials-list.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -20,9 +19,7 @@ class MyTabs extends StatefulWidget {
   final String userEmail;
 
   @override
-  MyTabs({this.userDisplayName,
-          this.userPhotoUrl,
-          this.userEmail,});
+  MyTabs({this.userDisplayName, this.userPhotoUrl, this.userEmail,});
 
   @override
   MyTabsState createState() => MyTabsState(
@@ -81,7 +78,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
             child: Text('No'),
           ),
           FlatButton(
-            onPressed: () => exit(0),
+            onPressed: () => exit(0), //to do. Potentially when coming to iOS deployment
             //exit(0): Works but Apple may SUSPEND YOUR APP because it's against Apple Human Interface guidelines to exit the app programmatically.
             //https://stackoverflow.com/questions/45109557/flutter-how-to-programmatically-exit-the-app
             /*Navigator.of(context).pop(true)*/
@@ -93,7 +90,7 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
         false; //i.e. if null, return false
   }
 
-  @override
+  @override //to do. Don't remember what this does. Might have been from a previous code I attempted
   void didChangeDependencies() {
     super.didChangeDependencies();
   }
@@ -110,7 +107,8 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
 
   updateTabColorFromControllerIndex() {
     setState(() {
-      fireBaseAnalyticsDataObject.tabChanged(tabIndex, controller.index, specials); //tracking of tab changes
+      //tracking of tab changes
+      fireBaseAnalyticsDataObject.tabChanged(tabIndex, controller.index, specials);
       tabIndex = controller.index;
     });
   }
@@ -259,6 +257,14 @@ class MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
       signOutGoogle(context, result);
     }
   }
+}
+
+class MenuItems { //to do. Bit pointless having this all by itself?
+  static const String SignOut = 'Signout';
+
+  static const List<String> choices = <String>[
+    SignOut,
+  ];
 }
 
 Color colorForTab(int tabIndex){
