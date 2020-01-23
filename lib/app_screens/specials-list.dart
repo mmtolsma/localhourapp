@@ -24,7 +24,7 @@ class SpecialsListState extends State<SpecialsList> {
   Widget build(BuildContext context) {
     var secondPageBody;
 
-    if (specials == null) {
+    if (specials == null) { //to do. Not even used?
       secondPageBody = loadingBar();
     } else {
       secondPageBody = listOfSpecies();
@@ -35,7 +35,7 @@ class SpecialsListState extends State<SpecialsList> {
     );
   }
 
-  Widget loadingBar() {
+  Widget loadingBar() { //to do. Not used? Not sure what this is used for anymore since there already is a loading thing between login and specials page
     return Center(
         child: Text(
       "Finding specials...",
@@ -67,7 +67,7 @@ class SpecialsListState extends State<SpecialsList> {
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Container(
                   alignment: Alignment.center,
-                  height: 400.0, //BAD! Need a way to fix this height issue!
+                  height: 400.0, //to do? Haven't found a device that is affected by this, but seems bad to hard code
                   width: MediaQuery.of(context).size.width,
                   child: Text('No specials here!', style: TextStyle(fontSize: 30.0),),
                 ),
@@ -86,7 +86,7 @@ class SpecialsListState extends State<SpecialsList> {
   }
 
   Widget speciesListItem(int index) {
-    return SpecialsListItem(
+    return SpecialsListItem( //to do. Wanted to add 'heading' as a parameter to use in analytics. Didn't work before
       venue: specials[index]['venue'],
       dayOfWeek: specials[index]['dayOfWeek'],
       specialTime: specials[index]['specialTime'],

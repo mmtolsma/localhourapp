@@ -11,8 +11,9 @@ class RootPage extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot){
           if (snapshot.hasData){
             print(snapshot.data.displayName);
-            FirebaseUser user = snapshot.data; // this is your user instance
-            return MyTabs( //passing parameters to MyTabs in order to load user data if previously signed in
+            FirebaseUser user = snapshot.data;
+            return MyTabs( //to do. Named Routes?
+              //passing parameters to MyTabs in order to load user data if previously signed in
               userDisplayName: user.displayName,
               userPhotoUrl: user.photoUrl,
               userEmail: user.email,

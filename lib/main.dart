@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => RootPage(),
         '/login-page': (context) => LoginPage(),
-        '/specials-page' : (context) => MyTabs(),
+        '/specials-page' : (context) => MyTabs(), //to do. Update to accept arguments? Currently not really being used
         },
       debugShowCheckedModeBanner: false,
       title: 'localhour',

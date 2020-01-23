@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class GlobalData {
+class GlobalData { //to do. Pointless class?
   FirebaseUser user;
 }
 

@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localhour/app_screens/tab-creation.dart';
 import 'package:localhour/components/sign-in.dart';
 import 'package:localhour/firebase-analytics.dart';
 import 'dart:io';
-
 import 'package:localhour/global-data.dart';
 
 class LoginPage extends StatefulWidget {
@@ -63,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
 //                    userPhotoUrl: globalData.user.photoUrl.toString(),
 //                  )
 //              ); //This doesn't work. Think applying arguments to routenames is a bit more challenging
-              Navigator.push(context,
+              Navigator.push(context, //to do
                   MaterialPageRoute(builder: (context) => MyTabs(
                     userPhotoUrl: globalData.user.photoUrl.toString(),
                     userEmail: globalData.user.email.toString(),

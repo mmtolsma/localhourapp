@@ -34,12 +34,12 @@ Future<bool> signInWithGoogle() async {
   }
 }
 
-void signOutGoogle(context, result) async{
+void signOutGoogle(context, result) async{ //to do. Not sure if both signOuts needed below, but it did fix the keep signed in problem
   await googleSignIn.signOut(); //Sign out the user
   await _auth.signOut();        //Sign out of authentication
   fireBaseAnalyticsDataObject.onSignOut(result);
   Navigator.of(context)
-      .pushNamedAndRemoveUntil('/login-page', (Route<dynamic> route) => false);
+      .pushNamedAndRemoveUntil('/login-page', (Route<dynamic> route) => false); //to do? Not sure if this fixes that stack problem
   print("User Sign Out");
 
 }
